@@ -1,0 +1,62 @@
+/* Fonts loaded via <link preload> in index.html */
+
+:root {
+  --bg-deep: #0d1f12;
+  --felt: #1a3a28;
+  --felt-subtle: #1d3f2d;
+  --wood: #5c3d1a;
+  --gold: #c9a84c;
+  --gold-glow: rgba(201, 168, 76, 0.15);
+  --cream: #e8e0d0;
+  --smoke: #a89e88;
+  --danger: #8b3a3a;
+  --success: #4a7a5a;
+  --card-white: #f5f0e8;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --table-ratio: 1.75;
+  --table-fit-height: 87.5vh;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-deep);
+  color: var(--cream);
+  font-family: var(--font-body);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  z-index: 9999;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  padding: 8px 16px;
+  background: var(--gold);
+  color: var(--bg-deep);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  position: fixed;
+  left: 8px;
+  top: 8px;
+  width: auto;
+  height: auto;
+}

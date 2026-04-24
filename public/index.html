@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Self-hosted multiplayer Texas Hold'em with 22 literary AI opponents and Monte Carlo engine"
+    />
+    <meta name="lonicera-asset-version" content="__ASSET_VERSION__" />
+    <meta property="og:title" content="LONICERA" />
+    <meta
+      property="og:description"
+      content="Where legends play their hand. Multiplayer poker with literary AI opponents."
+    />
+    <meta property="og:type" content="website" />
+    <title>LONICERA</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>♠</text></svg>"
+    />
+    <link rel="stylesheet" href="/vendor/fonts/google-fonts.css?v=__ASSET_VERSION__" />
+    <link rel="stylesheet" href="/css/style.css?v=__ASSET_VERSION__" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#gameScreen">Skip to game</a>
+    <!-- LOGIN SCREEN -->
+    <div class="login-screen" id="loginScreen" role="region" aria-label="Login">
+      <div class="login-container">
+        <div class="login-logo">LONICERA</div>
+        <div class="login-subtitle">Where legends play their hand.</div>
+        <div class="login-divider"></div>
+
+        <!-- STEP 1: MODE SELECTION (now inline) -->
+        <div class="mode-select-step active" id="modeSelectStep">
+          <div class="mode-select-inline">
+            <button class="mode-link active" data-mode="cash" id="modeBtn_cash">Cash Game</button>
+            <button class="mode-link" data-mode="tournament" id="modeBtn_tournament">
+              Tournament
+            </button>
+            <button class="mode-link" data-mode="practice" id="modeBtn_practice">Practice</button>
+          </div>
+          <div class="mode-feedback-bar" id="modeFeedbackBar" aria-live="polite">
+            <div class="mode-feedback-title" id="modeFeedbackTitle">Cash Game</div>
+            <div class="mode-feedback-text" id="modeFeedbackText">
+              Classic hold’em with deep stacks, room to maneuver, and a full table story hand after hand.
+            </div>
+            <div class="mode-feedback-meta">
+              <span class="mode-feedback-pill" id="modeFeedbackPillA">Deep-stack battles</span>
+              <span class="mode-feedback-pill" id="modeFeedbackPillB">Best for long sessions</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: SETTINGS (shown inline, no step transition) -->
+        <div class="settings-step active" id="settingsStep">
+          <div class="login-card">
+            <div class="form-group">
+              <label>Name</label>
+              <input
+                type="text"
+                id="playerName"
+                placeholder="Enter your name"
+                maxlength="16"
+                value=""
+              />
+            </div>
+            <div class="form-group">
+              <label>Avatar</label>
+              <div class="avatar-picker" id="avatarPicker"></div>
+              <input type="hidden" id="playerAvatar" value="🧑" />
+            </div>
+            <div class="form-row form-row-3">
+              <div class="form-group">
+                <label id="labelNpcCount">NPC</label>
+                <select id="npcCount" aria-label="NPC count">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3" selected>3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label id="labelStartChips">Chips</label>
+                <select id="startChips" aria-label="Starting chips">
+                  <option value="500">500</option>
+                  <option value="1000" selected>1000</option>
+                  <option value="2000">2000</option>
+                  <option value="5000">5000</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label id="labelSmallBlind">Blind</label>
+                <select id="smallBlind" aria-label="Small blind">
+                  <option value="5">5</option>
+                  <option value="10" selected>10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+            </div>
+            <input type="hidden" id="roomId" value="" />
+            <input type="hidden" id="selectedMode" value="cash" />
+
+            <div class="form-group room-selection-group" id="roomSelectionGroup">
+              <label>Room</label>
+              <div class="room-selection-summary" id="roomSelectionSummary" aria-live="polite">
+                <div class="room-selection-name" id="roomSelectionName">Select a room below</div>
+                <div class="room-selection-meta" id="roomSelectionMeta">
+                  Empty preset rooms create a new table. Active or saved rooms keep their own
+                  settings.
+                </div>
+              </div>
+            </div>
+
+            <!-- Room list (hidden in practice) -->
+            <div id="roomListSection">
+              <div class="lobby-section lobby-section-compact">
+                <div class="lobby-title">Rooms</div>
+                <div class="lobby-rooms-shell">
+                  <div class="lobby-rooms" id="lobbyRooms">
+                    <div class="lobby-empty">Loading...</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hidden" id="practiceDirectStart"></div>
+
+            <!-- Take a Seat button -->
+            <button class="btn-enter" id="btnTakeASeat">Take a Seat</button>
+          </div>
+        </div>
+
+        <div class="login-disclaimer">For entertainment and educational purposes only.</div>
+      </div>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div class="game-screen" id="gameScreen" role="main">
+      <!-- Three.js canvas (or CSS fallback) -->
+      <canvas id="room3dCanvas"></canvas>
+      <div class="css-fallback-bg" id="cssFallback"></div>
+
+      <div class="top-bar">
+        <div class="top-bar-title">LONICERA <span class="mode-badge" id="modeBadge"></span></div>
+        <div class="top-bar-info" id="topInfo">Waiting...</div>
+        <div class="top-bar-btns">
+          <!-- Speed/pause (practice only) -->
+          <div class="speed-pause-group hidden" id="speedPauseGroup">
+            <button class="speed-btn active" data-speed="1">1x</button>
+            <button class="speed-btn" data-speed="2">2x</button>
+            <button class="speed-btn" data-speed="3">3x</button>
+            <button class="pause-btn" id="btnPause">Pause Practice</button>
+          </div>
+          <button class="top-btn" id="btnLeaderboard" title="Leaderboard">stats</button>
+          <button class="top-btn" id="btnReplay" title="Hand Replay">replay</button>
+          <button class="top-btn" id="btnAutoPlay" title="Auto-play this seat">auto</button>
+          <!-- Hamburger menu for secondary actions -->
+          <div class="menu-shell">
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-haspopup="true">
+              ≡
+            </button>
+            <div class="menu-dropdown" id="menuDropdown" role="menu">
+              <button class="menu-item" id="btnHint">hands</button>
+              <button class="menu-item" id="btnNPCPanel">npcs</button>
+              <button class="menu-item" id="btnSave">Save Room</button>
+              <button class="menu-item" id="btnDeleteSave">Delete Room Save</button>
+              <button class="menu-item" id="btnRestart">restart</button>
+              <button class="menu-item" id="btnRename">rename</button>
+              <button class="menu-item" id="btnExit">exit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tournament-banner hidden" id="tournamentBanner">
+        <div class="tb-level">Tournament Level <span id="tbLevel">1</span></div>
+        <div>
+          Blinds <span id="tbBlinds">10/20</span> |
+          <span class="tb-timer">Next: <span id="tbTimer">3:00</span></span> |
+          <span class="tb-alive">Alive: <span id="tbAlive">0</span></span>
+        </div>
+      </div>
+
+      <div class="poker-table-wrapper">
+        <div class="poker-table">
+          <div class="table-brand">LONICERA</div>
+        </div>
+        <div class="community-cards" id="communityCards"></div>
+        <div class="pot-display" id="potDisplay">
+          <div class="pot-amount"></div>
+        </div>
+        <div id="playerSeats"></div>
+      </div>
+
+      <div class="round-overlay" id="roundOverlay">
+        <div id="modeSelectBtns">
+          <button class="btn-start-game" id="btnStartGame">Deal</button>
+          <button class="btn-start-game btn-ready-toggle hidden" id="btnToggleReady">Ready</button>
+          <div class="ready-status hidden" id="readyStatus"></div>
+          <button class="btn-start-game hidden stacked-start-btn" id="btnStartTournament">
+            Start Tournament
+          </button>
+        </div>
+        <button class="btn-start-game hidden stacked-start-btn" id="btnNextRoundAction">
+          Next Hand
+        </button>
+      </div>
+
+      <div class="actions-panel hidden" id="actionsPanel">
+        <button class="action-btn btn-fold" id="btnFold" aria-label="Fold">fold</button>
+        <button class="action-btn btn-check" id="btnCheck" aria-label="Check">check</button>
+        <button class="action-btn btn-call" id="btnCall" aria-label="Call">call</button>
+        <div class="raise-slider-group">
+          <input
+            type="range"
+            class="raise-slider"
+            id="raiseSlider"
+            aria-label="Raise amount"
+            min="0"
+            max="1000"
+            value="0"
+          />
+          <input
+            type="number"
+            class="raise-input"
+            id="raiseInput"
+            aria-label="Raise amount"
+            value="0"
+          />
+          <span class="raise-need-pay" id="raiseNeedPay"></span>
+        </div>
+        <button class="action-btn btn-raise" id="btnRaise" aria-label="Raise">raise</button>
+        <button class="action-btn btn-allin" id="btnAllIn" aria-label="All In">all in</button>
+      </div>
+
+      <div class="game-log collapsed" id="gameLog" role="log" aria-label="Game log">
+        <!-- NPC Chat Bubbles (left side) -->
+        <div class="npc-chat-area" id="npcChatArea"></div>
+        <div class="log-toggle">
+          <span class="log-last" id="logLast">Waiting...</span>
+          <span class="log-toggle-arrow">▲</span>
+        </div>
+        <div class="log-body" id="logBody"></div>
+      </div>
+    </div>
+
+    <!-- NPC MANAGEMENT PANEL -->
+    <div
+      class="npc-panel hidden"
+      id="npcPanel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="npcPanelTitle"
+    >
+      <div class="npc-panel-content">
+        <div class="npc-panel-title" id="npcPanelTitle">Characters</div>
+        <div class="npc-panel-subtitle">Tap a character card to add or remove NPCs</div>
+        <div class="npc-grid" id="npcGrid"></div>
+        <button class="npc-panel-close" id="btnCloseNPCPanel">Close</button>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD PANEL -->
+    <div
+      class="lb-panel hidden"
+      id="lbPanel"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Leaderboard"
+    >
+      <div class="lb-content">
+        <div class="npc-panel-title">Leaderboard</div>
+        <table class="lb-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Player</th>
+              <th>Wins</th>
+              <th>Hands</th>
+              <th>Rate</th>
+              <th>Max Pot</th>
+            </tr>
+          </thead>
+          <tbody id="lbBody"></tbody>
+        </table>
+        <button class="npc-panel-close" id="btnCloseLeaderboard">Close</button>
+      </div>
+    </div>
+
+    <!-- REPLAY PANEL -->
+    <div
+      class="replay-panel hidden"
+      id="replayPanel"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Hand History"
+    >
+      <div class="replay-content">
+        <div class="npc-panel-title">Hand History</div>
+        <div class="npc-panel-subtitle">Select a hand to review</div>
+        <div class="replay-hand-list" id="replayHandList"></div>
+        <div class="hidden" id="replayDetail">
+          <div class="replay-title" id="replayTitle"></div>
+          <div class="replay-winner-summary" id="replayWinnerSummary"></div>
+          <div class="replay-player-cards" id="replayPlayerCards"></div>
+          <div class="replay-section-label">Community Cards:</div>
+          <div class="replay-cards" id="replayCommunity"></div>
+          <div class="replay-section-label">Action Log:</div>
+          <div class="replay-actions" id="replayActions"></div>
+        </div>
+        <button class="npc-panel-close" id="btnCloseReplay">Close</button>
+      </div>
+    </div>
+
+    <!-- TOURNAMENT RESULT MODAL -->
+    <div
+      class="result-modal hidden"
+      id="tournamentModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Tournament Result"
+    >
+      <div class="result-content result-content-wide">
+        <div class="result-title">Tournament Complete</div>
+        <div class="tournament-result" id="tournamentResult"></div>
+        <button class="btn-start-game modal-action-spaced" id="btnCloseTournamentModal">
+          Understood
+        </button>
+      </div>
+    </div>
+
+    <!-- HAND TYPES MODAL -->
+    <div
+      class="result-modal hidden"
+      id="hintModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Hand Rankings"
+    >
+      <div class="result-content hint-content">
+        <div class="result-title hint-title">Hand Rankings</div>
+        <div class="hint-list">
+          <div class="hint-row">
+            <span class="hint-primary">Royal Flush</span
+            ><span class="hint-muted">A K Q J 10 suited</span>
+          </div>
+          <div class="hint-row">
+            <span>Straight Flush</span><span class="hint-muted">5 sequential suited</span>
+          </div>
+          <div class="hint-row">
+            <span>Four of a Kind</span><span class="hint-muted">4 of same rank</span>
+          </div>
+          <div class="hint-row">
+            <span>Full House</span><span class="hint-muted">3 + pair</span>
+          </div>
+          <div class="hint-row"><span>Flush</span><span class="hint-muted">5 same suit</span></div>
+          <div class="hint-row">
+            <span>Straight</span><span class="hint-muted">5 sequential</span>
+          </div>
+          <div class="hint-row">
+            <span>Three of a Kind</span><span class="hint-muted">3 of same rank</span>
+          </div>
+          <div class="hint-row">
+            <span class="hint-muted">Two Pair</span><span class="hint-muted">2 pairs</span>
+          </div>
+          <div class="hint-row">
+            <span class="hint-muted">One Pair</span><span class="hint-muted">1 pair</span>
+          </div>
+          <div class="hint-row hint-row-last">
+            <span class="hint-muted">High Card</span><span class="hint-muted">no combination</span>
+          </div>
+        </div>
+        <button class="btn-start-game hint-close-btn" id="btnCloseHintModal">Understood</button>
+      </div>
+    </div>
+
+    <!-- RESULT MODAL -->
+    <div
+      class="result-modal hidden"
+      id="resultModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Hand Result"
+    >
+      <div class="result-content">
+        <div class="result-title" id="resultTitle">Hand Complete</div>
+        <div class="result-details" id="resultDetails"></div>
+        <div class="result-rematch-tools hidden" id="resultRematchTools">
+          <button class="btn-start-game result-side-btn" id="btnResultAddNpc">Add 1 NPC</button>
+          <button class="btn-start-game result-side-btn" id="btnResultRemoveNpc">Remove 1 NPC</button>
+        </div>
+        <div class="result-actions">
+          <button class="btn-start-game" id="btnResultNextHand">Next Hand</button>
+          <button class="btn-start-game result-exit-btn hidden" id="btnResultExit">Exit Table</button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="result-modal hidden"
+      id="appDialogModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="appDialogTitle"
+    >
+      <div class="result-content app-dialog-content">
+        <div class="result-title app-dialog-title" id="appDialogTitle">Confirm</div>
+        <div class="app-dialog-body" id="appDialogBody"></div>
+        <div class="app-dialog-hint hidden" id="appDialogHint"></div>
+        <input
+          type="text"
+          class="app-dialog-input hidden"
+          id="appDialogInput"
+          maxlength="32"
+          autocomplete="off"
+        />
+        <div class="result-actions app-dialog-actions">
+          <button class="mode-back-btn app-dialog-cancel" id="btnAppDialogCancel">Cancel</button>
+          <button class="btn-start-game" id="btnAppDialogConfirm">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <script defer src="/js/three-loader.js?v=__ASSET_VERSION__"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script defer src="/js/app-state.js?v=__ASSET_VERSION__"></script>
+    <script defer src="/js/app-init.js?v=__ASSET_VERSION__"></script>
+    <script defer src="/js/lobby-socket.js?v=__ASSET_VERSION__"></script>
+    <script defer src="/js/table-render.js?v=__ASSET_VERSION__"></script>
+    <script defer src="/js/ui-panels.js?v=__ASSET_VERSION__"></script>
+    <script defer src="/js/app.js?v=__ASSET_VERSION__"></script>
+
+    <!-- SIDE EQUITY WIDGET -->
+    <div class="eq-side hidden" id="eqSide">
+      <button class="eq-side-btn" id="eqSideBtn" type="button">
+        <div class="eq-side-icon">🔮</div>
+        <div class="eq-side-caption">equity</div>
+        <div class="eq-side-badge" id="eqSideBadge"></div>
+      </button>
+      <div class="eq-side-detail hidden" id="eqSideDetail">
+        <div class="eq-side-bar"><div class="eq-side-bar-fill" id="eqSideBarFill"></div></div>
+        <div class="eq-side-label" id="eqSideLabel"></div>
+        <div class="eq-side-sub" id="eqSideSub"></div>
+      </div>
+    </div>
+
+    <!-- PAUSE OVERLAY -->
+    <div class="pause-overlay hidden" id="pauseOverlay">
+      <div class="pause-text">Practice Paused</div>
+      <div class="pause-subtext">AI actions and auto-advance are paused.</div>
+      <button class="pause-resume-btn" id="btnPauseResume">Resume Practice</button>
+    </div>
+
+    <!-- EQUITY RULES POPUP -->
+    <div
+      class="eq-rules-modal hidden"
+      id="eqRulesModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Equity Rules"
+    >
+      <div class="eq-rules-box">
+        <h3>🔮 Equity Rules</h3>
+        <p>First <span class="eq-rule-hl">3 views free</span> per hand.</p>
+        <p>
+          After that, cost doubles: <span class="eq-rule-hl">1BB → 2BB → 4BB → 8BB → 16BB…</span>
+        </p>
+        <p><span class="eq-rule-hl">5 consecutive hands</span> without using resets the price.</p>
+        <p>Cost is deducted from your chips, not added to the pot.</p>
+        <div class="eq-rules-footer">
+          <label><input type="checkbox" id="eqRulesNoShow" /> Don't show again</label>
+          <button class="eq-rules-ok" id="btnCloseEqRules">Understood</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EQUITY CONFIRM DIALOG -->
+    <div
+      class="eq-rules-modal hidden"
+      id="eqConfirmModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Confirm Equity"
+    >
+      <div class="eq-rules-box">
+        <h3>🔮 Confirm Equity View</h3>
+        <p id="eqConfirmText">
+          This view costs <span class="eq-rule-hl" id="eqConfirmPrice">0</span> chips.
+        </p>
+        <p class="eq-confirm-warn" id="eqConfirmWarn"></p>
+        <div class="eq-rules-footer">
+          <button class="mode-back-btn" id="btnCancelEqConfirm">Cancel</button>
+          <button class="eq-rules-ok" id="btnConfirmEqPurchase">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DALIO EASTER EGG -->
+    <div
+      class="eq-rules-modal hidden"
+      id="dalioModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Ray Dalio Quote"
+    >
+      <div class="eq-rules-box dalio-box">
+        <p class="dalio-quote">"He who lives by the crystal ball will eat shattered glass."</p>
+        <p class="dalio-attribution">— Ray Dalio</p>
+        <button class="eq-rules-ok" id="btnCloseDalioModal">Understood</button>
+      </div>
+    </div>
+  </body>
+</html>

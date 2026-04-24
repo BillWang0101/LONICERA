@@ -1,0 +1,673 @@
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 1440px) {
+  .poker-table-wrapper {
+    width: min(82vw, 780px, var(--table-fit-height));
+  }
+  .poker-table-wrapper::after {
+    top: 80%;
+    width: 98%;
+    height: 28%;
+    filter: blur(24px);
+    transform: translateX(-50%) scaleY(0.56);
+  }
+  .player-hole-cards .card {
+    width: 42px;
+    height: 59px;
+  }
+  .player-hole-cards .card-rank {
+    font-size: 0.85rem;
+    transform: translate(-50%, -65%);
+  }
+  .player-hole-cards .card-suit {
+    font-size: 0.95rem;
+    transform: translate(-50%, 20%);
+  }
+  .player-hole-cards .card-back {
+    width: 42px;
+    height: 59px;
+  }
+  .player-info {
+    min-width: 90px;
+    padding: 5px 8px;
+  }
+  .player-name {
+    font-size: 0.75rem;
+  }
+  .player-host-badge {
+    font-size: 0.45rem;
+    margin-left: 4px;
+    padding: 1px 3px;
+  }
+  .player-turn-timer {
+    top: -10px;
+    right: -8px;
+    min-width: 44px;
+    height: 22px;
+    padding: 0 6px;
+  }
+  .player-turn-timer-text {
+    font-size: 0.6rem;
+  }
+  .player-ready-badge,
+  .player-auto-badge,
+  .player-spectator-badge,
+  .player-offline-badge {
+    font-size: 0.45rem;
+    margin-left: 4px;
+    padding: 1px 3px;
+  }
+  .community-cards .card {
+    width: 55px;
+    height: 77px;
+  }
+}
+@media (max-width: 768px) {
+  .login-container,
+  .login-card {
+    max-width: 400px;
+  }
+  .form-row.form-row-3,
+  .room-selection-group,
+  .lobby-section,
+  .avatar-picker,
+  .login-card > .form-group {
+    max-width: none;
+  }
+  .card-front::before {
+    display: none;
+  }
+  .form-row.form-row-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .form-row.form-row-3 > :last-child {
+    grid-column: 1 / -1;
+  }
+  .mode-select-inline {
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    margin-bottom: 18px;
+  }
+  .btn-enter {
+    width: 100%;
+    max-width: none;
+  }
+  .lobby-rooms {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    max-height: 170px;
+  }
+  .poker-table-wrapper {
+    --table-fit-height: 84vh;
+    top: 47%;
+    width: min(95vw, var(--table-fit-height));
+  }
+  .poker-table-wrapper::after {
+    top: 82%;
+    width: 102%;
+    height: 30%;
+    filter: blur(20px);
+    transform: translateX(-50%) scaleY(0.6);
+  }
+  .player-info {
+    padding: 3px 5px;
+    min-width: 65px;
+  }
+  .player-name {
+    font-size: 0.65rem;
+    max-width: 60px;
+  }
+  .player-host-badge {
+    font-size: 0.4rem;
+    margin-left: 3px;
+    padding: 0 3px;
+  }
+  .player-turn-timer {
+    top: -9px;
+    right: -6px;
+    min-width: 38px;
+    height: 20px;
+    padding: 0 5px;
+    gap: 3px;
+  }
+  .player-turn-timer-icon {
+    font-size: 0.62rem;
+  }
+  .player-turn-timer-text {
+    font-size: 0.54rem;
+  }
+  .player-ready-badge,
+  .player-auto-badge,
+  .player-spectator-badge,
+  .player-offline-badge {
+    font-size: 0.4rem;
+    margin-left: 3px;
+    padding: 0 3px;
+  }
+  .ready-status {
+    width: 100%;
+    max-width: none;
+    font-size: 0.68rem;
+    line-height: 1.45;
+  }
+  .round-overlay {
+    width: min(92vw, 320px);
+  }
+  .round-overlay #modeSelectBtns {
+    width: 100%;
+  }
+  .btn-start-game,
+  .btn-ready-toggle {
+    width: 100%;
+  }
+  .player-chips {
+    font-size: 0.65rem;
+  }
+  .npc-badge {
+    font-size: 0.45rem;
+  }
+  .player-hole-cards .card {
+    width: 30px;
+    height: 42px;
+  }
+  .player-hole-cards .card-rank {
+    font-size: 0.6rem;
+    transform: translate(-50%, -65%);
+  }
+  .player-hole-cards .card-suit {
+    font-size: 0.65rem;
+    transform: translate(-50%, 20%);
+  }
+  .player-hole-cards .card-corner,
+  .player-hole-cards .card-corner-br {
+    display: none;
+  }
+  .player-hole-cards .card-back {
+    width: 30px;
+    height: 42px;
+  }
+  .player-hole-cards {
+    gap: 2px;
+  }
+  .community-cards {
+    gap: 4px;
+  }
+  .community-cards .card {
+    width: 40px;
+    height: 56px;
+  }
+  .community-cards .card-rank {
+    font-size: 0.9rem;
+  }
+  .community-cards .card-suit {
+    font-size: 1rem;
+  }
+  .community-cards .card-corner,
+  .community-cards .card-corner-br {
+    font-size: 0.35rem;
+  }
+  .community-cards .card-back {
+    width: 40px;
+    height: 56px;
+  }
+  .actions-panel {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 6px 5px;
+    gap: 4px;
+    bottom: 5px;
+  }
+  .action-btn {
+    padding: 6px 10px;
+    font-size: 0.7rem;
+  }
+  .game-log {
+    width: min(48vw, 190px);
+    right: 3px;
+    top: 116px;
+  }
+  .npc-chat-area {
+    width: min(42vw, 170px);
+    left: 3px;
+    top: 116px;
+  }
+  .game-log.collapsed {
+    max-height: 62px;
+  }
+  .game-log.expanded {
+    max-height: 34vh;
+  }
+  .log-toggle {
+    padding: 5px 8px;
+    font-size: 0.5rem;
+    gap: 5px;
+  }
+  .log-last {
+    font-size: 0.64rem;
+    line-height: 1.28;
+  }
+  .top-bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    padding: 4px 8px;
+    gap: 4px 6px;
+  }
+  .top-bar-title {
+    font-size: 0.7rem;
+    min-width: 0;
+  }
+  .top-bar-info {
+    grid-column: 1 / -1;
+    font-size: 0.58rem;
+    padding: 0;
+    white-space: normal;
+    line-height: 1.35;
+  }
+  .top-bar-btns {
+    justify-self: end;
+    max-width: 48vw;
+  }
+  .speed-pause-group {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .top-btn {
+    padding: 3px 5px;
+    font-size: 0.6rem;
+  }
+  .pot-amount {
+    font-size: 0.9rem;
+  }
+  .player-bet-badge {
+    font-size: 0.45rem;
+    padding: 1px 3px;
+  }
+  .player-action-badge {
+    font-size: 0.5rem;
+    padding: 2px 6px;
+    top: -18px;
+    min-width: 52px;
+    max-width: 108px;
+  }
+  .dealer-chip,
+  .sb-chip,
+  .bb-chip {
+    width: 16px;
+    height: 16px;
+    font-size: 0.4rem;
+  }
+  .tournament-banner {
+    font-size: 0.55rem;
+    padding: 3px 10px;
+    top: 62px;
+    max-width: calc(100vw - 16px);
+  }
+  .eq-side {
+    top: auto;
+    bottom: 160px;
+    transform: none;
+  }
+  body.log-expanded .eq-side {
+    top: auto;
+    bottom: 220px;
+    transform: none;
+  }
+  .result-content,
+  .npc-panel-content,
+  .lb-content,
+  .replay-content,
+  .eq-rules-box {
+    max-width: calc(100vw - 20px);
+    max-height: 82vh;
+    padding: 20px 16px;
+  }
+  .hint-row {
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .hint-row span:last-child {
+    text-align: right;
+  }
+  .login-logo {
+    font-size: 1.6rem;
+    letter-spacing: 0.3em;
+  }
+  .avatar-picker {
+    grid-template-columns: repeat(4, 44px);
+    gap: 8px;
+  }
+  .login-disclaimer {
+    font-size: 0.45rem;
+    margin-top: 24px;
+  }
+  /* Skip 3D scene on mobile — use CSS fallback */
+  #room3dCanvas {
+    display: none !important;
+  }
+  .css-fallback-bg {
+    display: block !important;
+  }
+}
+@media (max-width: 420px) {
+  .form-row.form-row-3 {
+    grid-template-columns: 1fr;
+  }
+  .form-row.form-row-3 > :last-child {
+    grid-column: auto;
+  }
+  .player-name {
+    max-width: 54px;
+  }
+  .game-log {
+    width: min(50vw, 180px);
+  }
+  .npc-chat-area {
+    width: min(40vw, 150px);
+  }
+  .menu-dropdown {
+    min-width: 126px;
+  }
+}
+@media (min-width: 1600px) {
+  .community-cards .card {
+    width: 70px;
+    height: 98px;
+  }
+  .community-cards .card-rank {
+    font-size: 1.8rem;
+    transform: translate(-50%, -65%);
+  }
+  .community-cards .card-suit {
+    font-size: 1.8rem;
+    transform: translate(-50%, 20%);
+  }
+}
+/* Landscape phones: tight vertical space */
+@media (max-height: 500px) and (orientation: landscape) {
+  .poker-table-wrapper {
+    --table-fit-height: 96.25vh;
+    width: min(86vw, var(--table-fit-height));
+    top: 46%;
+  }
+  .top-bar {
+    min-height: 30px;
+    padding: 2px 10px;
+  }
+  .actions-panel {
+    bottom: 2px;
+    padding: 4px 6px;
+  }
+  .action-btn {
+    padding: 5px 10px;
+    font-size: 0.7rem;
+  }
+  .tournament-banner {
+    top: 32px;
+  }
+  .game-log {
+    top: 62px;
+  }
+  .npc-chat-area {
+    top: 62px;
+  }
+  .login-container {
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+}
+@media (max-width: 932px) and (max-height: 560px) and (orientation: landscape) {
+  .poker-table-wrapper {
+    --table-fit-height: 92vh;
+    width: min(70vw, calc(var(--table-fit-height) * 1.68));
+    top: 47.5%;
+  }
+  .poker-table-wrapper::after {
+    top: 81%;
+    width: 100%;
+    height: 28%;
+    filter: blur(18px);
+    transform: translateX(-50%) scaleY(0.62);
+  }
+  .table-brand {
+    font-size: 1rem;
+    letter-spacing: 0.22em;
+  }
+  .community-cards {
+    gap: 3px;
+    transform: translate(-50%, -58%);
+  }
+  .community-cards .card,
+  .community-cards .card-back {
+    width: 34px;
+    height: 48px;
+  }
+  .community-cards .card-rank {
+    font-size: 0.78rem;
+  }
+  .community-cards .card-suit {
+    font-size: 0.86rem;
+  }
+  .community-cards .card-corner,
+  .community-cards .card-corner-br {
+    font-size: 0.3rem;
+  }
+  .pot-display {
+    transform: translate(-50%, 30px);
+  }
+  .pot-amount {
+    font-size: 0.82rem;
+  }
+  .player-info {
+    min-width: 58px;
+    padding: 2px 5px;
+  }
+  .player-name {
+    font-size: 0.6rem;
+    max-width: 56px;
+  }
+  .player-chips {
+    font-size: 0.58rem;
+  }
+  .player-host-badge,
+  .player-ready-badge,
+  .player-auto-badge,
+  .player-spectator-badge,
+  .player-offline-badge,
+  .npc-badge {
+    font-size: 0.38rem;
+    margin-left: 2px;
+    padding: 0 2px;
+  }
+  .player-hole-cards {
+    gap: 1px;
+  }
+  .player-hole-cards .card,
+  .player-hole-cards .card-back {
+    width: 26px;
+    height: 36px;
+  }
+  .player-hole-cards .card-rank {
+    font-size: 0.5rem;
+  }
+  .player-hole-cards .card-suit {
+    font-size: 0.54rem;
+  }
+  .player-bet-badge {
+    font-size: 0.42rem;
+    padding: 1px 2px;
+  }
+  .player-action-badge {
+    top: -16px;
+    font-size: 0.46rem;
+    padding: 2px 5px;
+    min-width: 46px;
+    max-width: 94px;
+  }
+  .dealer-chip,
+  .sb-chip,
+  .bb-chip {
+    width: 14px;
+    height: 14px;
+    font-size: 0.36rem;
+  }
+  .top-bar {
+    min-height: 28px;
+    padding: 2px 8px;
+    gap: 3px 6px;
+  }
+  .top-bar-title {
+    font-size: 0.64rem;
+  }
+  .top-bar-info {
+    font-size: 0.52rem;
+    line-height: 1.2;
+  }
+  .top-bar-btns {
+    max-width: 44vw;
+    gap: 1px;
+  }
+  .speed-pause-group {
+    margin-right: 4px;
+    gap: 1px;
+  }
+  .speed-btn,
+  .pause-btn,
+  .top-btn {
+    padding: 2px 4px;
+    font-size: 0.56rem;
+  }
+  .menu-toggle {
+    padding: 2px 4px;
+    font-size: 0.8rem;
+  }
+  .tournament-banner {
+    top: 30px;
+    font-size: 0.48rem;
+    padding: 2px 8px;
+    max-width: min(58vw, 340px);
+  }
+  .game-log {
+    width: min(28vw, 150px);
+    top: 62px;
+    right: 4px;
+  }
+  .npc-chat-area {
+    width: min(24vw, 136px);
+    top: 62px;
+    left: 4px;
+    gap: 4px;
+  }
+  .game-log.collapsed {
+    max-height: 52px;
+  }
+  .game-log.expanded {
+    max-height: 44vh;
+  }
+  .log-toggle {
+    padding: 4px 6px;
+    gap: 4px;
+  }
+  .log-last {
+    font-size: 0.58rem;
+    line-height: 1.22;
+    -webkit-line-clamp: 2;
+  }
+  .round-overlay {
+    top: 50%;
+    width: min(34vw, 230px);
+  }
+  .round-overlay #modeSelectBtns {
+    gap: 6px;
+  }
+  .btn-start-game,
+  .btn-ready-toggle {
+    width: 100%;
+    padding: 8px 14px;
+    font-size: 0.68rem;
+  }
+  .ready-status {
+    font-size: 0.56rem;
+    line-height: 1.2;
+  }
+  .actions-panel {
+    left: 50%;
+    bottom: 2px;
+    width: min(92vw, 640px);
+    transform: translateX(-50%);
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 4px 6px;
+    gap: 3px;
+    scrollbar-width: none;
+  }
+  .actions-panel::-webkit-scrollbar {
+    display: none;
+  }
+  .action-btn {
+    flex: 0 0 auto;
+    padding: 5px 8px;
+    font-size: 0.62rem;
+  }
+  .raise-slider-group {
+    flex: 1 0 150px;
+    min-width: 150px;
+    gap: 4px;
+  }
+  .raise-slider {
+    width: 84px;
+  }
+  .raise-input {
+    width: 54px;
+    padding: 4px;
+    font-size: 0.66rem;
+  }
+  .raise-need-pay {
+    font-size: 0.56rem;
+    white-space: nowrap;
+  }
+  .eq-side {
+    bottom: 86px;
+    right: 2px;
+  }
+  body.log-expanded .eq-side {
+    top: auto;
+    bottom: 142px;
+    transform: none;
+  }
+  .eq-side-btn {
+    min-width: 42px;
+    padding: 7px 8px 7px 10px;
+  }
+  .eq-side-icon {
+    font-size: 1.15rem;
+  }
+  .eq-side-caption,
+  .eq-side-badge,
+  .eq-side-label,
+  .eq-side-sub {
+    font-size: 0.46rem;
+  }
+  .eq-side-bar {
+    width: 58px;
+  }
+  .result-content,
+  .result-content.result-content-wide,
+  .npc-panel-content,
+  .lb-content,
+  .replay-content,
+  .eq-rules-box {
+    max-height: 88vh;
+    padding: 16px 18px;
+  }
+}
+/* Accessibility: reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

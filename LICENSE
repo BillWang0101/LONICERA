@@ -1,0 +1,68 @@
+                    GNU GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+                            Preamble
+
+  The GNU General Public License is a free, copyleft license for
+software and other kinds of works.
+
+  The licenses for most software and other practical works are designed
+to take away your freedom to share and change the works.  By contrast,
+the GNU General Public License is intended to guarantee your freedom to
+share and change all versions of a program--to make sure it remains free
+software for all its users.
+
+  For the full text of the GNU General Public License v3.0, see:
+  https://www.gnu.org/licenses/gpl-3.0.en.html
+
+================================================================================
+
+ADDITIONAL RESTRICTION — ANTI-GAMBLING CLAUSE
+
+In addition to the terms of the GNU General Public License v3.0, the
+following additional restriction applies to this software and all
+derivative works:
+
+This software SHALL NOT be used, modified, or distributed for the
+purpose of operating, facilitating, promoting, or supporting any form
+of real-money gambling, betting, wagering, or any activity where
+participants risk real currency, cryptocurrency, or anything of
+monetary value.
+
+Specifically, the following uses are PROHIBITED:
+
+1. Integrating real-money payment, deposit, or withdrawal systems
+2. Enabling the exchange of in-game chips or credits for real currency
+   or goods of monetary value
+3. Operating the software as part of any gambling service, whether
+   licensed or unlicensed
+4. Modifying the software to add any form of real-money wagering
+   functionality
+
+Any use of this software in violation of this restriction automatically
+terminates your rights under this license.
+
+This software is intended SOLELY for entertainment, educational, and
+recreational purposes. All in-game "chips" are virtual points with zero
+monetary value.
+
+================================================================================
+
+Copyright (c) 2026 LONICERA: A Poker Game Contributors
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, version 3 of the License, with the
+additional restriction stated above.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.

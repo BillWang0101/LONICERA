@@ -1,0 +1,72 @@
+{
+  "name": "lonicera",
+  "version": "1.0.0",
+  "description": "LONICERA: A Poker Game is a self-hosted multiplayer Texas Hold'em experience with 22 literary AI opponents, a Monte Carlo engine, and an equity oracle",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "lint": "eslint . --quiet",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "solver:generate-scripts": "node scripts/generate-texassolver-scripts.js",
+    "solver:build-retry-manifest": "node scripts/build-solver-retry-manifest.js",
+    "solver:prepare-phase1": "node scripts/prepare-phase1-solver-run.js",
+    "solver:manifest": "node scripts/generate-solve-manifest.js",
+    "solver:report-workload": "node scripts/report-solver-workload.js",
+    "solver:watchdog": "node scripts/solver-workload-watchdog.js",
+    "solver:retry-watchdog": "node scripts/solver-retry-watchdog.js",
+    "solver:watchdog-daemon": "zsh scripts/solver-watchdog-daemon.sh",
+    "solver:run-workload": "node scripts/run-solver-workload.js",
+    "solver:import": "node scripts/import-texassolver-tree.js",
+    "solver:import-batch": "node scripts/import-texassolver-batch.js",
+    "solver:normalize": "node scripts/normalize-texassolver-tree.js",
+    "solver:run-batch": "node scripts/run-texassolver-batch.js",
+    "solver:smoke": "node scripts/solver-smoke.js",
+    "npc:export-dataset": "node scripts/export-npc-policy-dataset.js",
+    "npc:train": "python ai/train_policy.py",
+    "npc:serve": "python ai/remote_inference_service.py",
+    "npc:validate-runtime": "node scripts/validate-runtime-game-loop.js",
+    "test": "jest --verbose",
+    "test:browser": "playwright test"
+  },
+  "keywords": [
+    "poker",
+    "texas-holdem",
+    "multiplayer",
+    "ai",
+    "monte-carlo",
+    "game",
+    "self-hosted",
+    "docker"
+  ],
+  "author": "LONICERA: A Poker Game contributors",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BillWang0101/LONICERA.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BillWang0101/LONICERA/issues"
+  },
+  "homepage": "https://github.com/BillWang0101/LONICERA#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "eslint": "^9.0.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.0.0",
+    "socket.io-client": "^4.8.3"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/e2e/"
+    ]
+  }
+}
